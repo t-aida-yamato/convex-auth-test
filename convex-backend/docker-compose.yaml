@@ -2,12 +2,13 @@ name: convex
 
 services:
   backend:
-    image: ghcr.io/get-convex/convex-backend:6c974d219776b753cd23d26f4a296629ff7c2cad
+    # image: ghcr.io/get-convex/convex-backend:6c974d219776b753cd23d26f4a296629ff7c2cad
+    image: convex-backend:latest
     ports:
       - "${PORT:-3210}:3210"
       - "${SITE_PROXY_PORT:-3211}:3211"
     volumes:
-      - data:/convex/data
+      - convex-data:/convex/data
     environment:
       - INSTANCE_NAME=${INSTANCE_NAME:-}
       - INSTANCE_SECRET=${INSTANCE_SECRET:-}
@@ -24,6 +25,8 @@ services:
       test: curl -f http://localhost:3210/version
       interval: 5s
       start_period: 5s
+    depends_on:
+      - postgres
 
   dashboard:
     image: ghcr.io/get-convex/convex-dashboard:4499dd4fd7f2148687a7774599c613d052950f46
@@ -35,5 +38,16 @@ services:
       backend:
         condition: service_healthy
 
+  postgres:
+    image: postgres:16.7-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: always
+
 volumes:
-  data:
+  convex-data:
+  postgres-data:

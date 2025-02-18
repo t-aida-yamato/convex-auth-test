@@ -4,6 +4,7 @@
 
 - https://docs.convex.dev/self-hosting
 - https://github.com/get-convex/convex-backend/blob/main/self-hosted/README.md
+- https://stack.convex.dev/self-hosted-develop-and-deploy
 - https://github.com/get-convex/convex-backend/blob/main/self-hosted/docker/docker-compose.yml
 
 
@@ -11,6 +12,7 @@
 $ git clone <this repo>
 $ cd convex-auth-test
 $ cd convex-backend
+$ docker compose pull
 $ docker compose up -d
 $ docker compose exec backend ./generate_admin_key.sh
 Admin key:
@@ -97,3 +99,7 @@ $ npm run dev
 ```
 
 - http://localhost:3000
+
+## Use PostgreSQL
+
+- https://github.com/get-convex/convex-backend/blob/main/self-hosted/README.md#running-the-database-on-postgres
